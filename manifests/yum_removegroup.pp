@@ -7,7 +7,7 @@ define yumgroup($ensure = "present", $optional = false) {
          }
          exec { "Installing $name yum group":
             command => "yum -y groupremove $pkg_types_arg $name",
-#            unless => "yum -y groupinstall $pkg_types_arg $name --downloadonly",
+            unless => "yum groupinfo -v $name |sed '1,/^ Mandatory/d;/^ Default/,$d'",
             timeout => 600,
          }
       }
